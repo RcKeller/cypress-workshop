@@ -38,7 +38,7 @@ jobs:
           name: Install Dependencies
           command: npm ci --no-audit
       - run:
-          name: Start Server (fullstack)
+          name: Start App
           command: npm run start
           background: true
       - run:
@@ -70,7 +70,7 @@ jobs:
 
 # === WORKFLOWS ===
 workflows:
-  full_stack:
+  build_test_deploy:
     jobs:
       - build
       - e2e:
