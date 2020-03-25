@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 context('Network Requests', () => {
   beforeEach(() => {
     cy.server()
@@ -7,7 +5,6 @@ context('Network Requests', () => {
   })
 
   it('cy.request() - make an XHR request', () => {
-    // https://on.cypress.io/request
     cy.request('https://jsonplaceholder.cypress.io/comments')
       .should((response) => {
         expect(response.status).to.eq(200)
@@ -28,7 +25,6 @@ context('Network Requests', () => {
   })
 
   it('cy.route() - route responses to matching requests', () => {
-    // https://on.cypress.io/route
 
     const message = 'whoa, this comment does not exist'
 
@@ -39,7 +35,6 @@ context('Network Requests', () => {
     // the button is clicked in scripts.js
     cy.get('.network-btn').click()
 
-    // https://on.cypress.io/wait
     cy.wait('@getComment').its('status').should('eq', 200)
 
     // Listen to POST to comments

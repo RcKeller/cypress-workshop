@@ -1,14 +1,9 @@
-/// <reference types="cypress" />
-
 context('Actions', () => {
   beforeEach(() => {
     cy.visit('https://example.cypress.io/commands/actions')
   })
 
-  // https://on.cypress.io/interacting-with-elements
-
   it('.type() - type into a DOM element', () => {
-    // https://on.cypress.io/type
     cy.get('.action-email')
       .type('fake@email.com').should('have.value', 'fake@email.com')
 
@@ -34,18 +29,20 @@ context('Actions', () => {
   })
 
   it('.focus() - focus on a DOM element', () => {
-    // https://on.cypress.io/focus
     cy.get('.action-focus').focus()
       .should('have.class', 'focus')
       .prev().should('have.attr', 'style', 'color: orange;')
   })
 
   it('.submit() - submit a form', () => {
-    // https://on.cypress.io/submit
     cy.get('.action-form')
-      .find('[type="text"]').type('HALFOFF')
-    cy.get('.action-form').submit()
-      .next().should('contain', 'Your form has been submitted!')
+      .find('[type="text"]')
+      .type('HALFOFF')
+
+    cy.get('.action-form')
+      .submit()
+      .next()
+      .should('contain', 'Your form has been submitted!')
   })
 
   it('.click() - click on a DOM element', () => {
@@ -66,16 +63,18 @@ context('Actions', () => {
     //  -----------------------------------
 
     // clicking in the center of the element is the default
-    cy.get('#action-canvas').click()
+    cy.get('#action-canvas')
+      .click()
 
-    cy.get('#action-canvas').click('topLeft')
-    cy.get('#action-canvas').click('top')
-    cy.get('#action-canvas').click('topRight')
-    cy.get('#action-canvas').click('left')
-    cy.get('#action-canvas').click('right')
-    cy.get('#action-canvas').click('bottomLeft')
-    cy.get('#action-canvas').click('bottom')
-    cy.get('#action-canvas').click('bottomRight')
+    cy.get('#action-canvas')
+      .click('topLeft')
+      .get('#action-canvas').click('top')
+      .get('#action-canvas').click('topRight')
+      .get('#action-canvas').click('left')
+      .get('#action-canvas').click('right')
+      .get('#action-canvas').click('bottomLeft')
+      .get('#action-canvas').click('bottom')
+      .get('#action-canvas').click('bottomRight')
 
     // .click() accepts an x and y coordinate
     // that controls where the click occurs :)
@@ -132,20 +131,25 @@ context('Actions', () => {
     // scroll the entire window
     cy.scrollTo('bottom')
 
-    cy.get('#scrollable-horizontal').scrollTo('right')
+    cy.get('#scrollable-horizontal')
+      .scrollTo('right')
 
     // or you can scroll to a specific coordinate:
     // (x axis, y axis) in pixels
-    cy.get('#scrollable-vertical').scrollTo(250, 250)
+    cy.get('#scrollable-vertical')
+      .scrollTo(250, 250)
 
     // or you can scroll to a specific percentage
     // of the (width, height) of the element
-    cy.get('#scrollable-both').scrollTo('75%', '25%')
+    cy.get('#scrollable-both')
+      .scrollTo('75%', '25%')
 
     // control the easing of the scroll (default is 'swing')
-    cy.get('#scrollable-vertical').scrollTo('center', { easing: 'linear' })
+    cy.get('#scrollable-vertical')
+      .scrollTo('center', { easing: 'linear' })
 
     // control the duration of the scroll (in ms)
-    cy.get('#scrollable-both').scrollTo('center', { duration: 2000 })
+    cy.get('#scrollable-both')
+      .scrollTo('center', { duration: 2000 })
   })
 })

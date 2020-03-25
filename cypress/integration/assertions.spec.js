@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 context('Assertions', () => {
   beforeEach(() => {
     cy.visit('https://example.cypress.io/commands/assertions')
@@ -7,7 +5,6 @@ context('Assertions', () => {
 
   describe('Implicit Assertions', () => {
     it('.should() - make an assertion about the current subject', () => {
-      // https://on.cypress.io/should
       cy.get('.assertion-table')
         .find('tbody tr:last')
         .should('have.class', 'success')
@@ -27,19 +24,14 @@ context('Assertions', () => {
 
       // a better way to check element's text content against a regular expression
       // is to use "cy.contains"
-      // https://on.cypress.io/contains
       cy.get('.assertion-table')
         .find('tbody tr:last')
         // finds first <td> element with text content matching regular expression
         .contains('td', /column content/i)
         .should('be.visible')
-
-      // for more information about asserting element's text
-      // see https://on.cypress.io/using-cypress-faq#How-do-I-get-an-element’s-text-contents
     })
 
     it('.and() - chain multiple assertions together', () => {
-      // https://on.cypress.io/and
       cy.get('.assertions-link')
         .should('have.class', 'active')
         .and('have.attr', 'href')
@@ -48,10 +40,9 @@ context('Assertions', () => {
   })
 
   describe('Explicit Assertions', () => {
-    // https://on.cypress.io/assertions
     it('expect - make an assertion about a specified subject', () => {
       // We can use Chai's BDD style assertions
-      expect(true).to.be.true
+      // expect(true).to.be.true
       const o = { foo: 'bar' }
 
       expect(o).to.equal(o)
@@ -68,9 +59,7 @@ context('Assertions', () => {
       cy.get('.assertions-p')
         .find('p')
         .should(($p) => {
-          // https://on.cypress.io/$
           // return an array of texts from all of the p's
-          // @ts-ignore TS6133 unused variable
           const texts = $p.map((i, el) => Cypress.$(el).text())
 
           // jquery map returns jquery object
