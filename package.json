@@ -1,10 +1,20 @@
 {
-  "name": "with-styled-components",
+  "name": "cypress-workshop",
   "version": "1.0.0",
+  "license": "MIT",
+  "author": "Ryan Keller <rykeller.tech@gmail.com> (https://rykeller.com/)",
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "integration": "cypress run",
+    "integration:open": "cypress open"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "plugins": [
+      "cypress"
+    ]
   },
   "dependencies": {
     "next": "latest",
@@ -13,7 +23,10 @@
     "styled-components": "^4.0.0"
   },
   "devDependencies": {
-    "babel-plugin-styled-components": "^1.8.0"
-  },
-  "license": "ISC"
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-styled-components": "^1.8.0",
+    "cypress": "^4.2.0",
+    "eslint-plugin-cypress": "^2.10.3",
+    "standard": "^14.3.3"
+  }
 }
