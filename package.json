@@ -11,6 +11,9 @@
     "integration:open": "cypress open"
   },
   "standard": {
+    "env": [
+      "cypress/globals"
+    ],
     "parser": "babel-eslint",
     "plugins": [
       "cypress"

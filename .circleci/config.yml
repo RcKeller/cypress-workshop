@@ -1,0 +1,86 @@
+version: 2.1
+
+# === JOBS ===
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10
+        environment:
+          NODE_ENV: production
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-demo-{{ checksum "package-lock.json" }}
+            - v1-demo-
+      - run:
+          name: Install Dependencies
+          command: npm ci --no-audit
+      - save_cache:
+          key: v1-repo-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
+      - run: 
+          name: Static Build
+          command: npm run build
+  e2e:
+    docker:
+      - image: cypress/base:10
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            # https://medium.com/@chrisbanes/circleci-cache-key-over-many-files-c9e07f4d471a
+            - v1-repo-{{ checksum "package-lock.json" }}
+            - v1-repo
+      - run:
+          name: Install Dependencies
+          command: npm ci --no-audit
+      - run:
+          name: Start Server (fullstack)
+          command: npm run start
+          background: true
+      - run:
+          name: Cypress Testing
+          command: |
+            TESTFILES=$(circleci tests glob "cypress/integration/**/*.spec.js" | circleci tests split --split-by=timings)
+            $(npm bin)/cypress run \
+              --reporter junit --reporter-options "mochaFile=~/junit-results/my-test-output.xml" \
+              --config video=true \
+              --spec $(echo $TESTFILES | sed 's/ /,/g')
+      - store_artifacts:
+          path: ./cypress/screenshots
+          when: on_fail
+      - store_artifacts:
+          path: ./cypress/videos
+          when: on_fail
+      - store_artifacts:
+          path: ./junit-results
+      - store_test_results:
+          path: ./junit-results
+  deploy:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run:
+          name: Deployment
+          command: echo "Your deploy step here" && exit 0
+
+# === WORKFLOWS ===
+workflows:
+  full_stack:
+    jobs:
+      - build
+      - e2e:
+          requires:
+            - build
+            # - unit
+      - deploy:
+          requires:
+            - e2e
+          filters:
+            branches:
+              only:
+                master
